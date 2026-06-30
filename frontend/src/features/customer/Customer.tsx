@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
-import '../dashboard/Dashboard.css'
+import Button from '../../components/ui/Button'
+import Card from '../../components/ui/Card'
+// import '../dashboard/Dashboard.css'
+import './Customer.css'
 
 type CustomerStatus = 'ACTIVE' | 'INACTIVE'
 type StatusFilter = CustomerStatus | 'ALL'
@@ -185,33 +188,33 @@ function CustomerDashboard() {
 				</header>
 
 				{error ? (
-					<div className="panel-card" role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
+					<Card role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
 						{error}
-					</div>
+					</Card>
 				) : null}
 
 				<section className="dashboard-grid" aria-label="Customer metrics">
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Total Customers</p>
 						<p className="metric-value">{customers.length}</p>
 						<p className="metric-note">All active customer records currently returned by the API.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Active Customers</p>
 						<p className="metric-value">{activeCount}</p>
 						<p className="metric-note">Customers marked as ACTIVE and available for operations.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Inactive Customers</p>
 						<p className="metric-value">{inactiveCount}</p>
 						<p className="metric-note">Customers retained in the list but marked as INACTIVE.</p>
-					</article>
+					</Card>
 				</section>
 
 				<section className="management-grid" aria-label="Customer management">
-					<article className="panel-card">
+					<Card>
 						<div className="panel-header">
 							<div>
 								<h2 className="panel-title">Customer Form</h2>
@@ -221,9 +224,9 @@ function CustomerDashboard() {
 							</div>
 
 							{editingId !== null ? (
-								<button type="button" className="action-pill" onClick={resetForm}>
+								<Button type="button" variant="pill" onClick={resetForm}>
 									Cancel edit
-								</button>
+								</Button>
 							) : null}
 						</div>
 
@@ -267,14 +270,14 @@ function CustomerDashboard() {
 
 							<div className="login-actions" style={{ marginTop: '18px' }}>
 								<p className="login-hint">Backed by /api/customers only.</p>
-								<button className="login-button" type="submit" disabled={saving}>
+								<Button type="submit" disabled={saving}>
 									{saving ? 'Saving…' : editingId === null ? 'Create customer' : 'Update customer'}
-								</button>
+								</Button>
 							</div>
 						</form>
-					</article>
+					</Card>
 
-					<article className="panel-card">
+					<Card>
 						<div className="panel-header">
 							<div>
 								<h2 className="panel-title">Customer List</h2>
@@ -328,12 +331,12 @@ function CustomerDashboard() {
 										</div>
 
 										<div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
-											<button type="button" className="action-pill" onClick={() => startEdit(customer)}>
+											<Button type="button" variant="pill" onClick={() => startEdit(customer)}>
 												Edit
-											</button>
-											<button type="button" className="action-pill" onClick={() => handleDelete(customer.id)}>
+											</Button>
+											<Button type="button" variant="pill" onClick={() => handleDelete(customer.id)}>
 												Delete
-											</button>
+											</Button>
 										</div>
 									</li>
 								))}
@@ -343,7 +346,7 @@ function CustomerDashboard() {
 						<p className="panel-description" style={{ marginTop: '16px' }}>
 							Customer count: {customers.length} · Companies: {companyCount}
 						</p>
-					</article>
+					</Card>
 				</section>
 			</section>
 		</main>

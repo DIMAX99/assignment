@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import LoginPage from '../features/login/Login'
-import Dashboard from '../features/dashboard/Dashboard'
+import Layout from './Layout'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   if (isAuthenticated) {
-    return <Dashboard />
+    return <Layout />
   }
 
   return <LoginPage onLoginSuccess={() => setIsAuthenticated(true)} />

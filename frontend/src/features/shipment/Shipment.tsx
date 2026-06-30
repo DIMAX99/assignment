@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
-import '../dashboard/Dashboard.css'
+import Button from '../../components/ui/Button'
+import Card from '../../components/ui/Card'
+// import '../dashboard/Dashboard.css'
+import './Shipment.css'
 
 type ShipmentStatus = 'ARRIVED' | 'DELAYED' | 'SHIPPED' | 'PROCESSING'
 type StatusFilter = ShipmentStatus | 'ALL'
@@ -73,9 +76,6 @@ function ShipmentDashboard() {
 	const [form, setForm] = useState<ShipmentFormState>(emptyForm)
 
 	const loadShipments = async () => {
-		setLoading(true)
-		setError('')
-
 		try {
 			const response = await api.get<ApiResponse<Shipment[]> | Shipment[]>('/shipments')
 			setShipments(getShipmentList(response.data))
@@ -169,45 +169,45 @@ function ShipmentDashboard() {
 				</header>
 
 				{error ? (
-					<div className="panel-card" role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
+					<Card role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
 						{error}
-					</div>
+					</Card>
 				) : null}
 
 				<section className="dashboard-grid" aria-label="Shipment metrics">
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Total Shipments</p>
 						<p className="metric-value">{shipments.length}</p>
 						<p className="metric-note">All shipment records currently returned by the API.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Processing</p>
 						<p className="metric-value">{processingCount}</p>
 						<p className="metric-note">Shipments created but not yet shipped.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Shipped</p>
 						<p className="metric-value">{shippedCount}</p>
 						<p className="metric-note">Shipments currently in transit.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Delayed</p>
 						<p className="metric-value">{delayedCount}</p>
 						<p className="metric-note">Shipments flagged as delayed.</p>
-					</article>
+					</Card>
 
-					<article className="metric-card">
+					<Card variant="metric">
 						<p className="metric-label">Arrived</p>
 						<p className="metric-value">{arrivedCount}</p>
 						<p className="metric-note">Shipments that have reached their destination.</p>
-					</article>
+					</Card>
 				</section>
 
 				<section className="management-grid" aria-label="Shipment management">
-					<article className="panel-card">
+					<Card>
 						<div className="panel-header">
 							<div>
 								<h2 className="panel-title">New Shipment</h2>
@@ -255,14 +255,14 @@ function ShipmentDashboard() {
 							</div>
 
 							<div className="login-actions" style={{ marginTop: '18px' }}>
-								<button className="login-button" type="submit" disabled={saving}>
+								<Button type="submit" disabled={saving}>
 									{saving ? 'Saving…' : 'Create shipment'}
-								</button>
+								</Button>
 							</div>
 						</form>
-					</article>
+					</Card>
 
-					<article className="panel-card">
+					<Card>
 						<div className="panel-header">
 							<div>
 								<h2 className="panel-title">Shipment List</h2>
@@ -340,7 +340,7 @@ function ShipmentDashboard() {
 						<p className="panel-description" style={{ marginTop: '16px' }}>
 							Shipment count: {shipments.length} · Shown: {filteredShipments.length}
 						</p>
-					</article>
+					</Card>
 				</section>
 			</section>
 		</main>
