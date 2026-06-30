@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum DeliveryStatus {
+  ARRIVED
+  DELAYED
+  SHIPPED
+  PROCESSING
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  company   String?
+  status    Status   @default(ACTIVE)
+  deletedAt DateTime?
+  shipments Shipment[]
+}
+
+model Shipment {
+  id            Int            @id @default(autoincrement())
+  trackingNumber String
+  customer      Customer?      @relation(fields: [customerId], references: [id])
+  customerId    Int?
+  origin        String
+  destination   String
+  status        DeliveryStatus @default(PROCESSING)
+}
