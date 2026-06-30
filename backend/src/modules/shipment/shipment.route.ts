@@ -81,7 +81,7 @@ router.get("/", controller.getAllShipments);
  *       404:
  *         description: Shipment not found
  */
-router.put("/:id", controller.getShipment);
+router.get("/:id", controller.getShipment);
 
 /**
  * @openapi

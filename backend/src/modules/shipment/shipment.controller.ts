@@ -7,7 +7,12 @@ export class ShipmentController {
 
   async createShipment(req: Request, res: Response) {
     try {
-      const result = await service.createShipment(req.body);
+      const trackingNumber = `TRK${Date.now()}${Math.floor(Math.random() * 10000)}`;
+      const data = {
+        ...req.body,
+        trackingNumber
+      };
+      const result = await service.createShipment(data);
       res.status(201).json(result);
     } catch (err) {
       res.status(500).json({ message: "Failed to create shipment" });

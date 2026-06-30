@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Dashboard from '../features/dashboard/Dashboard'
 import LoginPage from '../features/login/Login'
+import Dashboard from '../features/dashboard/Dashboard'
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)

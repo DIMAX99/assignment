@@ -6,9 +6,7 @@ export class CustomerRepository {
   }
 
   findAll() {
-    return prisma.customer.findMany({
-      where: { deletedAt: null },
-    });
+    return prisma.customer.findMany();
   }
 
   update(id: number, data: any) {
