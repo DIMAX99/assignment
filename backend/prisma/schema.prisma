@@ -13,6 +13,12 @@ enum Status {
   INACTIVE
 }
 
+
+enum MessageRole {
+  USER
+  ASSISTANT
+}
+
 enum DeliveryStatus {
   ARRIVED
   DELAYED
@@ -38,4 +44,23 @@ model Shipment {
   origin        String
   destination   String
   status        DeliveryStatus @default(PROCESSING)
+}
+
+model ChatSession {
+  id         Int           @id @default(autoincrement())
+  title      String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  messages   ChatMessage[]
+}
+
+model ChatMessage {
+  id         Int           @id @default(autoincrement())
+  sessionId  Int
+  role       MessageRole
+  content    String        @db.Text
+  createdAt  DateTime      @default(now())
+
+  session    ChatSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 }
