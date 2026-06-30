@@ -5,6 +5,7 @@ import "../components/sidebar/Sidebar.css";
 const sidebarItems: SidebarItem[] = [
   { label: "Customer Dashboard", to: "/customer" },
   { label: "Shipment Dashboard", to: "/shipment" },
+  { label: "Chatbot", to: "/chatbot" },
 ];
 
 export default function Layout() {
