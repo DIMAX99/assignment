@@ -1,22 +1,22 @@
 .dashboard-page {
   min-height: 100vh;
-  padding: 28px;
+  padding: 20px;
 }
 
 .dashboard-shell {
   width: min(1240px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 24px;
+  gap: 18px;
 }
 
 .dashboard-hero {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 24px;
-  padding: 28px 30px;
-  border-radius: 28px;
+  gap: 18px;
+  padding: 22px 24px;
+  border-radius: 24px;
   background: rgba(8, 15, 31, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
@@ -25,20 +25,20 @@
 
 .dashboard-title-block {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .dashboard-kicker {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.78rem;
+  font-size: 0.7rem;
   color: #fbbf24;
 }
 
 .dashboard-title {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.3rem);
+  font-size: clamp(1.7rem, 3.2vw, 2.8rem);
   line-height: 1;
 }
 
@@ -46,34 +46,36 @@
   margin: 0;
   max-width: 64ch;
   color: rgba(229, 238, 251, 0.82);
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 .dashboard-badge {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
   background: rgba(14, 165, 233, 0.16);
   color: #bae6fd;
   font-weight: 700;
+  font-size: 0.88rem;
   white-space: nowrap;
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 14px;
 }
 
 .metric-label {
   margin: 0 0 12px;
   color: #64748b;
-  font-size: 0.92rem;
+  font-size: 0.84rem;
   font-weight: 700;
 }
 
 .metric-value {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
   font-weight: 800;
   line-height: 1;
 }
@@ -81,13 +83,14 @@
 .metric-note {
   margin: 12px 0 0;
   color: #475569;
-  line-height: 1.55;
+  line-height: 1.5;
+  font-size: 0.92rem;
 }
 
 .dashboard-columns {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
-  gap: 18px;
+  gap: 14px;
 }
 
 .panel-header {
@@ -95,18 +98,19 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .panel-title {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
 }
 
 .panel-description {
   margin: 6px 0 0;
   color: #64748b;
-  line-height: 1.5;
+  line-height: 1.45;
+  font-size: 0.92rem;
 }
 
 .status-chart {
@@ -159,7 +163,64 @@
 .management-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.customer-form {
+  display: grid;
   gap: 18px;
+}
+
+.customer-form-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.customer-field {
+  display: grid;
+  gap: 8px;
+}
+
+.customer-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.customer-form-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.customer-form-hint {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.customer-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(10px);
+}
+
+.customer-modal {
+  width: min(640px, 100%);
+  max-height: min(90vh, 920px);
+  overflow: auto;
+  padding: 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.98);
+  color: #0f172a;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.32);
 }
 
 .management-list {
@@ -175,8 +236,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 16px;
-  border-radius: 18px;
+  padding: 12px 14px;
+  border-radius: 16px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
@@ -184,11 +245,17 @@
 .management-item strong {
   display: block;
   margin-bottom: 4px;
+  font-size: 0.95rem;
 }
 
 .management-item span {
   color: #64748b;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
+}
+
+.dashboard-page :global(.ui-card-panel),
+.dashboard-page :global(.ui-card-metric) {
+  padding: 18px;
 }
 
 @media (max-width: 960px) {
@@ -210,7 +277,35 @@
   }
 
   .dashboard-hero {
-    padding: 20px;
-    border-radius: 22px;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .dashboard-grid,
+  .dashboard-columns,
+  .management-grid {
+    gap: 12px;
+  }
+
+  .customer-modal-backdrop {
+    padding: 12px;
+  }
+
+  .customer-modal {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .customer-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .customer-form-buttons {
+    justify-content: stretch;
+  }
+
+  .customer-form-buttons > * {
+    flex: 1 1 auto;
   }
 }

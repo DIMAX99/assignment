@@ -8,7 +8,6 @@ frontend/dist-ssr/
 **/build/
 **/coverage/
 
-backend/prisma/migrations/*
 backend/prisma/.env
 
 # Generated backend artifacts

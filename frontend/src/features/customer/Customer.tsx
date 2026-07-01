@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
 import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
-// import '../dashboard/Dashboard.css'
 import './Customer.css'
 
 type CustomerStatus = 'ACTIVE' | 'INACTIVE'
@@ -71,6 +70,7 @@ function CustomerDashboard() {
 	const [saving, setSaving] = useState(false)
 	const [error, setError] = useState('')
 	const [editingId, setEditingId] = useState<number | null>(null)
+	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [searchTerm, setSearchTerm] = useState('')
 	const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL')
 	const [form, setForm] = useState<CustomerFormState>(emptyForm)
@@ -118,6 +118,11 @@ function CustomerDashboard() {
 		setEditingId(null)
 	}
 
+	function openCreateModal() {
+		resetForm()
+		setIsModalOpen(true)
+	}
+
 	function startEdit(customer: Customer) {
 		setEditingId(customer.id)
 		setForm({
@@ -125,6 +130,12 @@ function CustomerDashboard() {
 			email: customer.email,
 			company: customer.company ?? ''
 		})
+		setIsModalOpen(true)
+	}
+
+	function closeModal() {
+		setIsModalOpen(false)
+		resetForm()
 	}
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -145,7 +156,7 @@ function CustomerDashboard() {
 				await api.put(`/customers/${editingId}`, payload)
 			}
 
-			resetForm()
+			closeModal()
 			await loadCustomers()
 		} catch (err) {
 			setError(getErrorMessage(err))
@@ -175,11 +186,7 @@ function CustomerDashboard() {
 			<section className="dashboard-shell">
 				<header className="dashboard-hero">
 					<div className="dashboard-title-block">
-						<p className="dashboard-kicker">Customer operations</p>
-						<h1 className="dashboard-title">Customer Dashboard</h1>
-						<p className="dashboard-subtitle">
-							Manage customer records with the customer API only: list, create, update, and soft delete.
-						</p>
+						<h2 className="dashboard-title">Customer Dashboard</h2>
 					</div>
 
 					<div className="dashboard-badge">
@@ -217,64 +224,14 @@ function CustomerDashboard() {
 					<Card>
 						<div className="panel-header">
 							<div>
-								<h2 className="panel-title">Customer Form</h2>
-								<p className="panel-description">
-									{editingId === null ? 'Create a new customer.' : `Editing customer #${editingId}.`}
-								</p>
+								<h2 className="panel-title">Create Customer</h2>
+								<p className="panel-description">Open the popup to add a new customer record.</p>
 							</div>
 
-							{editingId !== null ? (
-								<Button type="button" variant="pill" onClick={resetForm}>
-									Cancel edit
-								</Button>
-							) : null}
+							<Button type="button" variant="pill" onClick={openCreateModal}>
+								Create Customer
+							</Button>
 						</div>
-
-						<form className="customer-form" onSubmit={handleSubmit}>
-							<div style={{ display: 'grid', gap: '14px' }}>
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Name</span>
-									<input
-										className="field-input"
-										type="text"
-										value={form.name}
-										onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
-										placeholder="Jane Doe"
-										required
-									/>
-								</label>
-
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Email</span>
-									<input
-										className="field-input"
-										type="email"
-										value={form.email}
-										onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
-										placeholder="jane@example.com"
-										required
-									/>
-								</label>
-
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Company</span>
-									<input
-										className="field-input"
-										type="text"
-										value={form.company}
-										onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))}
-										placeholder="Acme Inc"
-									/>
-								</label>
-							</div>
-
-							<div className="login-actions" style={{ marginTop: '18px' }}>
-								<p className="login-hint">Backed by /api/customers only.</p>
-								<Button type="submit" disabled={saving}>
-									{saving ? 'Saving…' : editingId === null ? 'Create customer' : 'Update customer'}
-								</Button>
-							</div>
-						</form>
 					</Card>
 
 					<Card>
@@ -348,6 +305,86 @@ function CustomerDashboard() {
 						</p>
 					</Card>
 				</section>
+
+				{isModalOpen ? (
+					<div className="customer-modal-backdrop" role="presentation" onClick={closeModal}>
+						<div
+							className="customer-modal"
+							role="dialog"
+							aria-modal="true"
+							aria-labelledby="customer-modal-title"
+							onClick={(event) => event.stopPropagation()}
+						>
+							<div className="panel-header">
+								<div>
+									<h2 className="panel-title" id="customer-modal-title">
+										{editingId === null ? 'Create Customer' : `Edit Customer #${editingId}`}
+									</h2>
+									<p className="panel-description">
+										{editingId === null
+											? 'Fill in the fields and create a new customer record.'
+											: 'Update the customer details and save the changes.'}
+									</p>
+								</div>
+
+								<Button type="button" variant="pill" onClick={closeModal}>
+									Close
+								</Button>
+							</div>
+
+							<form className="customer-form" onSubmit={handleSubmit}>
+								<div className="customer-form-fields">
+									<label className="customer-field">
+										<span className="field-label">Name</span>
+										<input
+											className="field-input"
+											type="text"
+											value={form.name}
+											onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
+											placeholder="Jane Doe"
+											required
+										/>
+									</label>
+
+									<label className="customer-field">
+										<span className="field-label">Email</span>
+										<input
+											className="field-input"
+											type="email"
+											value={form.email}
+											onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
+											placeholder="jane@example.com"
+											required
+										/>
+									</label>
+
+									<label className="customer-field">
+										<span className="field-label">Company</span>
+										<input
+											className="field-input"
+											type="text"
+											value={form.company}
+											onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))}
+											placeholder="Acme Inc"
+										/>
+									</label>
+								</div>
+
+								<div className="customer-form-actions">
+									<p className="customer-form-hint">Backed by /api/customers only.</p>
+									<div className="customer-form-buttons">
+										<Button type="button" variant="pill" onClick={closeModal}>
+											Cancel
+										</Button>
+										<Button type="submit" disabled={saving}>
+											{saving ? 'Saving…' : editingId === null ? 'Create customer' : 'Update customer'}
+										</Button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				) : null}
 			</section>
 		</main>
 	)

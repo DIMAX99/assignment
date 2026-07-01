@@ -156,11 +156,7 @@ function ShipmentDashboard() {
 			<section className="dashboard-shell">
 				<header className="dashboard-hero">
 					<div className="dashboard-title-block">
-						<p className="dashboard-kicker">Logistics operations</p>
-						<h1 className="dashboard-title">Shipment Dashboard</h1>
-						<p className="dashboard-subtitle">
-							Track shipments end to end, backed by the shipment API only: create shipments and update their delivery status.
-						</p>
+						<h2 className="dashboard-title">Shipment Dashboard</h2>
 					</div>
 
 					<div className="dashboard-badge">
@@ -178,31 +174,26 @@ function ShipmentDashboard() {
 					<Card variant="metric">
 						<p className="metric-label">Total Shipments</p>
 						<p className="metric-value">{shipments.length}</p>
-						<p className="metric-note">All shipment records currently returned by the API.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Processing</p>
 						<p className="metric-value">{processingCount}</p>
-						<p className="metric-note">Shipments created but not yet shipped.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Shipped</p>
 						<p className="metric-value">{shippedCount}</p>
-						<p className="metric-note">Shipments currently in transit.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Delayed</p>
 						<p className="metric-value">{delayedCount}</p>
-						<p className="metric-note">Shipments flagged as delayed.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Arrived</p>
 						<p className="metric-value">{arrivedCount}</p>
-						<p className="metric-note">Shipments that have reached their destination.</p>
 					</Card>
 				</section>
 

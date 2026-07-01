@@ -7,16 +7,16 @@
   width: min(1240px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 24px;
+  gap: 18px;
 }
 
 .dashboard-hero {
   display: flex;
   align-items: end;
   justify-content: space-between;
-  gap: 24px;
-  padding: 28px 30px;
-  border-radius: 28px;
+  gap: 18px;
+  padding: 22px 24px;
+  border-radius: 24px;
   background: rgba(8, 15, 31, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
@@ -25,7 +25,7 @@
 
 .dashboard-title-block {
   display: grid;
-  gap: 10px;
+  gap: 6px;
 }
 
 .dashboard-kicker {
@@ -38,7 +38,7 @@
 
 .dashboard-title {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3.3rem);
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
   line-height: 1;
 }
 
@@ -46,42 +46,42 @@
   margin: 0;
   max-width: 64ch;
   color: rgba(229, 238, 251, 0.82);
-  line-height: 1.6;
+  line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 .dashboard-badge {
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: 999px;
   background: rgba(14, 165, 233, 0.16);
   color: #bae6fd;
   font-weight: 700;
+  font-size: 0.88rem;
   white-space: nowrap;
 }
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.dashboard-grid .ui-card-metric {
+  padding: 16px;
 }
 
 .metric-label {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: #64748b;
-  font-size: 0.92rem;
+  font-size: 0.78rem;
   font-weight: 700;
 }
 
 .metric-value {
   margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
   font-weight: 800;
   line-height: 1;
-}
-
-.metric-note {
-  margin: 12px 0 0;
-  color: #475569;
-  line-height: 1.55;
 }
 
 .dashboard-columns {
@@ -159,7 +159,7 @@
 .management-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 14px;
 }
 
 .management-list {
@@ -175,8 +175,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 14px 16px;
-  border-radius: 18px;
+  padding: 12px 14px;
+  border-radius: 16px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
@@ -192,7 +192,10 @@
 }
 
 @media (max-width: 960px) {
-  .dashboard-grid,
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .dashboard-columns,
   .management-grid {
     grid-template-columns: 1fr;
@@ -210,7 +213,15 @@
   }
 
   .dashboard-hero {
-    padding: 20px;
-    border-radius: 22px;
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid .ui-card-metric {
+    padding: 14px;
   }
 }

@@ -13,7 +13,6 @@ enum Status {
   INACTIVE
 }
 
-
 enum MessageRole {
   USER
   ASSISTANT
@@ -37,30 +36,38 @@ model Customer {
 }
 
 model Shipment {
-  id            Int            @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   trackingNumber String
-  customer      Customer?      @relation(fields: [customerId], references: [id])
-  customerId    Int?
-  origin        String
-  destination   String
-  status        DeliveryStatus @default(PROCESSING)
+  customer       Customer?      @relation(fields: [customerId], references: [id])
+  customerId     Int?
+  origin         String
+  destination    String
+  status         DeliveryStatus @default(PROCESSING)
 }
 
 model ChatSession {
-  id         Int           @id @default(autoincrement())
-  title      String?
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  id        Int           @id @default(autoincrement())
+  title     String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
-  messages   ChatMessage[]
+  messages  ChatMessage[]
 }
 
 model ChatMessage {
-  id         Int           @id @default(autoincrement())
-  sessionId  Int
-  role       MessageRole
-  content    String        @db.Text
-  createdAt  DateTime      @default(now())
+  id        Int         @id @default(autoincrement())
+  sessionId Int
+  role      MessageRole
+  content   String      @db.Text
+  createdAt DateTime    @default(now())
 
-  session    ChatSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
 }
