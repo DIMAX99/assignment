@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type FormEvent } from 'react'
 import axios from 'axios'
 import Button from '../../components/ui/Button'
 import Card from '../../components/ui/Card'
-// import '../dashboard/Dashboard.css'
 import './Shipment.css'
 
 type ShipmentStatus = 'ARRIVED' | 'DELAYED' | 'SHIPPED' | 'PROCESSING'
@@ -74,6 +73,7 @@ function ShipmentDashboard() {
 	const [searchTerm, setSearchTerm] = useState('')
 	const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL')
 	const [form, setForm] = useState<ShipmentFormState>(emptyForm)
+	const [isModalOpen, setIsModalOpen] = useState(false)
 
 	const loadShipments = async () => {
 		try {
@@ -115,6 +115,16 @@ function ShipmentDashboard() {
 		setForm(emptyForm)
 	}
 
+	function openCreateModal() {
+		resetForm()
+		setIsModalOpen(true)
+	}
+
+	function closeModal() {
+		setIsModalOpen(false)
+		resetForm()
+	}
+
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault()
 		setSaving(true)
@@ -128,7 +138,7 @@ function ShipmentDashboard() {
 
 		try {
 			await api.post('/shipments', payload)
-			resetForm()
+			closeModal()
 			await loadShipments()
 		} catch (err) {
 			setError(getErrorMessage(err))
@@ -152,120 +162,70 @@ function ShipmentDashboard() {
 	}
 
 	return (
-		<main className="dashboard-page">
-			<section className="dashboard-shell">
-				<header className="dashboard-hero">
-					<div className="dashboard-title-block">
-						<h2 className="dashboard-title">Shipment Dashboard</h2>
+		<main className="shipment-page">
+			<section className="shipment-shell">
+				<header className="shipment-hero">
+					<div className="shipment-hero-text">
+						<h1 className="shipment-title">Shipment Dashboard</h1>
+						<p className="shipment-subtitle">Create shipments and track every status as they move through transit.</p>
 					</div>
 
-					<div className="dashboard-badge">
+					<div className="shipment-badge">
 						{loading ? 'Syncing data…' : `${filteredShipments.length} shipments shown`}
 					</div>
 				</header>
 
 				{error ? (
-					<Card role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
+					<Card role="alert" className="shipment-error">
 						{error}
 					</Card>
 				) : null}
 
-				<section className="dashboard-grid" aria-label="Shipment metrics">
+				<section className="shipment-metrics" aria-label="Shipment metrics">
 					<Card variant="metric">
-						<p className="metric-label">Total Shipments</p>
-						<p className="metric-value">{shipments.length}</p>
+						<p className="shipment-metric-label">Total Shipments</p>
+						<p className="shipment-metric-value">{shipments.length}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Processing</p>
-						<p className="metric-value">{processingCount}</p>
+						<p className="shipment-metric-label">Processing</p>
+						<p className="shipment-metric-value">{processingCount}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Shipped</p>
-						<p className="metric-value">{shippedCount}</p>
+						<p className="shipment-metric-label">Shipped</p>
+						<p className="shipment-metric-value">{shippedCount}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Delayed</p>
-						<p className="metric-value">{delayedCount}</p>
+						<p className="shipment-metric-label">Delayed</p>
+						<p className="shipment-metric-value">{delayedCount}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Arrived</p>
-						<p className="metric-value">{arrivedCount}</p>
+						<p className="shipment-metric-label">Arrived</p>
+						<p className="shipment-metric-value">{arrivedCount}</p>
 					</Card>
 				</section>
 
-				<section className="management-grid" aria-label="Shipment management">
+				<section aria-label="Shipment management">
 					<Card>
-						<div className="panel-header">
+						<div className="shipment-panel-header">
 							<div>
-								<h2 className="panel-title">New Shipment</h2>
-								<p className="panel-description">Create a shipment with a tracking number, route, and optional customer.</p>
-							</div>
-						</div>
-
-						<form className="customer-form" onSubmit={handleSubmit}>
-							<div style={{ display: 'grid', gap: '14px' }}>
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Customer ID</span>
-									<input
-										className="field-input"
-										type="number"
-										value={form.customerId}
-										onChange={(event) => setForm((current) => ({ ...current, customerId: event.target.value }))}
-										placeholder="1"
-										min={1}
-									/>
-								</label>
-
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Origin</span>
-									<input
-										className="field-input"
-										type="text"
-										value={form.origin}
-										onChange={(event) => setForm((current) => ({ ...current, origin: event.target.value }))}
-										placeholder="New York"
-										required
-									/>
-								</label>
-
-								<label style={{ display: 'grid', gap: '8px' }}>
-									<span className="field-label">Destination</span>
-									<input
-										className="field-input"
-										type="text"
-										value={form.destination}
-										onChange={(event) => setForm((current) => ({ ...current, destination: event.target.value }))}
-										placeholder="Boston"
-										required
-									/>
-								</label>
-							</div>
-
-							<div className="login-actions" style={{ marginTop: '18px' }}>
-								<Button type="submit" disabled={saving}>
-									{saving ? 'Saving…' : 'Create shipment'}
-								</Button>
-							</div>
-						</form>
-					</Card>
-
-					<Card>
-						<div className="panel-header">
-							<div>
-								<h2 className="panel-title">Shipment List</h2>
-								<p className="panel-description">
+								<h2 className="shipment-panel-title">Shipment List</h2>
+								<p className="shipment-panel-description">
 									Search and filter shipments, and update status as they move through transit.
 								</p>
 							</div>
+
+							<Button type="button" variant="pill" onClick={openCreateModal}>
+								Create Shipment
+							</Button>
 						</div>
 
-						<div style={{ display: 'grid', gap: '14px', marginBottom: '18px' }}>
+						<div className="shipment-toolbar">
 							<input
-								className="field-input"
+								className="shipment-search-input"
 								type="search"
 								value={searchTerm}
 								onChange={(event) => setSearchTerm(event.target.value)}
@@ -273,7 +233,7 @@ function ShipmentDashboard() {
 							/>
 
 							<select
-								className="field-input"
+								className="shipment-status-select"
 								value={statusFilter}
 								onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
 							>
@@ -287,19 +247,17 @@ function ShipmentDashboard() {
 						</div>
 
 						{loading ? (
-							<div className="management-item">Loading shipments…</div>
+							<div className="shipment-empty-state">Loading shipments…</div>
 						) : filteredShipments.length === 0 ? (
-							<div className="management-item">
-								<div>
-									<strong>No shipments found</strong>
-									<span>Create a shipment or adjust the filters.</span>
-								</div>
+							<div className="shipment-empty-state">
+								<strong>No shipments found</strong>
+								<span>Create a shipment or adjust the filters.</span>
 							</div>
 						) : (
-							<ul className="management-list">
+							<ul className="shipment-list">
 								{filteredShipments.map((shipment) => (
-									<li className="management-item" key={shipment.id}>
-										<div style={{ minWidth: 0 }}>
+									<li className="shipment-list-item" key={shipment.id}>
+										<div className="shipment-list-item-info">
 											<strong>{shipment.trackingNumber}</strong>
 											<span>
 												{shipment.origin} → {shipment.destination}
@@ -307,9 +265,9 @@ function ShipmentDashboard() {
 											<span>Customer: {shipment.customerId ?? 'Unassigned'}</span>
 										</div>
 
-										<div style={{ display: 'flex', gap: '10px', flexShrink: 0, alignItems: 'center' }}>
+										<div className="shipment-list-item-actions">
 											<select
-												className="field-input"
+												className="shipment-status-update"
 												value={shipment.status}
 												disabled={updatingId === shipment.id}
 												onChange={(event) =>
@@ -328,11 +286,90 @@ function ShipmentDashboard() {
 							</ul>
 						)}
 
-						<p className="panel-description" style={{ marginTop: '16px' }}>
+						<p className="shipment-footer-note">
 							Shipment count: {shipments.length} · Shown: {filteredShipments.length}
 						</p>
 					</Card>
 				</section>
+
+				{isModalOpen ? (
+					<div className="shipment-modal-backdrop" role="presentation" onClick={closeModal}>
+						<div
+							className="shipment-modal"
+							role="dialog"
+							aria-modal="true"
+							aria-labelledby="shipment-modal-title"
+							onClick={(event) => event.stopPropagation()}
+						>
+							<div className="shipment-panel-header">
+								<div>
+									<h2 className="shipment-panel-title" id="shipment-modal-title">
+										Create Shipment
+									</h2>
+									<p className="shipment-panel-description">
+										Create a shipment with a tracking number, route, and optional customer.
+									</p>
+								</div>
+
+								<Button type="button" variant="pill" onClick={closeModal}>
+									Close
+								</Button>
+							</div>
+
+							<form className="shipment-form" onSubmit={handleSubmit}>
+								<div className="shipment-form-fields">
+									<label className="shipment-field">
+										<span className="shipment-field-label">Customer ID</span>
+										<input
+											className="shipment-field-input"
+											type="number"
+											value={form.customerId}
+											onChange={(event) => setForm((current) => ({ ...current, customerId: event.target.value }))}
+											placeholder="1"
+											min={1}
+										/>
+									</label>
+
+									<label className="shipment-field">
+										<span className="shipment-field-label">Origin</span>
+										<input
+											className="shipment-field-input"
+											type="text"
+											value={form.origin}
+											onChange={(event) => setForm((current) => ({ ...current, origin: event.target.value }))}
+											placeholder="New York"
+											required
+										/>
+									</label>
+
+									<label className="shipment-field">
+										<span className="shipment-field-label">Destination</span>
+										<input
+											className="shipment-field-input"
+											type="text"
+											value={form.destination}
+											onChange={(event) => setForm((current) => ({ ...current, destination: event.target.value }))}
+											placeholder="Boston"
+											required
+										/>
+									</label>
+								</div>
+
+								<div className="shipment-form-actions">
+									<p className="shipment-form-hint">Backed by /api/shipments only.</p>
+									<div className="shipment-form-buttons">
+										<Button type="button" variant="pill" onClick={closeModal}>
+											Cancel
+										</Button>
+										<Button type="submit" disabled={saving}>
+											{saving ? 'Saving…' : 'Create shipment'}
+										</Button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				) : null}
 			</section>
 		</main>
 	)

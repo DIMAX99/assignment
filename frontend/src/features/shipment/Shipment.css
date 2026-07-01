@@ -1,227 +1,374 @@
-.dashboard-page {
+/* All classes are prefixed with "shipment-" so they can never collide with
+   Customer.css or any other feature stylesheet (this app loads all CSS
+   globally, so generic names like .dashboard-page previously clashed
+   across features and produced inconsistent layouts). */
+
+.shipment-page {
   min-height: 100vh;
-  padding: 28px;
+  padding: 20px;
 }
 
-.dashboard-shell {
-  width: min(1240px, 100%);
+.shipment-shell {
+  width: min(1180px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
-.dashboard-hero {
+/* ---------- Hero ---------- */
+
+.shipment-hero {
   display: flex;
-  align-items: end;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: 18px;
-  padding: 22px 24px;
-  border-radius: 24px;
+  gap: 12px;
+  padding: 18px 22px;
+  border-radius: 14px;
   background: rgba(8, 15, 31, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(18px);
 }
 
-.dashboard-title-block {
+.shipment-hero-text {
   display: grid;
-  gap: 6px;
+  gap: 4px;
+  min-width: 0;
 }
 
-.dashboard-kicker {
+.shipment-title {
   margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  font-size: 0.78rem;
-  color: #fbbf24;
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
+  line-height: 1.1;
 }
 
-.dashboard-title {
+.shipment-subtitle {
   margin: 0;
-  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
-  line-height: 1;
+  max-width: 56ch;
+  color: rgba(229, 238, 251, 0.78);
+  line-height: 1.4;
+  font-size: 0.9rem;
 }
 
-.dashboard-subtitle {
-  margin: 0;
-  max-width: 64ch;
-  color: rgba(229, 238, 251, 0.82);
-  line-height: 1.5;
-  font-size: 0.95rem;
-}
-
-.dashboard-badge {
-  padding: 8px 12px;
+.shipment-badge {
+  padding: 7px 12px;
   border-radius: 999px;
   background: rgba(14, 165, 233, 0.16);
   color: #bae6fd;
   font-weight: 700;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   white-space: nowrap;
 }
 
-.dashboard-grid {
+.shipment-error {
+  border-color: #fecaca !important;
+  color: #b91c1c;
+}
+
+/* ---------- Metrics ---------- */
+
+.shipment-metrics {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
 
-.dashboard-grid .ui-card-metric {
-  padding: 16px;
+.shipment-shell .ui-card-metric {
+  padding: 14px 16px;
 }
 
-.metric-label {
-  margin: 0 0 8px;
+.shipment-metric-label {
+  margin: 0 0 6px;
   color: #64748b;
   font-size: 0.78rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.metric-value {
+.shipment-metric-value {
   margin: 0;
-  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
   font-weight: 800;
   line-height: 1;
 }
 
-.dashboard-columns {
+/* ---------- Card shell tweaks (scoped to this page only) ---------- */
+
+.shipment-shell .ui-card {
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 6px 16px rgba(15, 23, 42, 0.05);
+}
+
+.shipment-shell .ui-card-panel {
+  padding: 18px 20px;
+}
+
+.shipment-panel-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.shipment-panel-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.shipment-panel-description {
+  margin: 4px 0 0;
+  color: #64748b;
+  line-height: 1.4;
+  font-size: 0.88rem;
+}
+
+/* ---------- Create shipment form (inside modal) ---------- */
+
+.shipment-form {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
   gap: 18px;
 }
 
-.panel-header {
+.shipment-form-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.shipment-field {
+  display: grid;
+  gap: 6px;
+}
+
+.shipment-field-label {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.shipment-field-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.94rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.shipment-field-input:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.shipment-form-actions {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.panel-title {
-  margin: 0;
-  font-size: 1.3rem;
-}
-
-.panel-description {
-  margin: 6px 0 0;
-  color: #64748b;
-  line-height: 1.5;
-}
-
-.status-chart {
-  display: grid;
   gap: 14px;
 }
 
-.status-row {
-  display: grid;
-  gap: 8px;
-}
-
-.status-topline {
+.shipment-form-buttons {
   display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 0.94rem;
-  color: #334155;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.status-track {
+.shipment-form-hint {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+/* ---------- Toolbar (search + status filter) ---------- */
+
+.shipment-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.shipment-search-input {
+  flex: 1 1 220px;
+}
+
+.shipment-status-select {
+  flex: 0 1 170px;
+}
+
+.shipment-search-input,
+.shipment-status-select {
   width: 100%;
-  height: 12px;
-  border-radius: 999px;
-  background: #e2e8f0;
-  overflow: hidden;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.92rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.status-fill {
-  height: 100%;
-  border-radius: inherit;
+.shipment-search-input:focus,
+.shipment-status-select:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
 }
 
-.status-fill.arrived {
-  background: linear-gradient(90deg, #0f766e, #14b8a6);
-}
+/* ---------- List ---------- */
 
-.status-fill.delayed {
-  background: linear-gradient(90deg, #b45309, #f59e0b);
-}
-
-.status-fill.shipped {
-  background: linear-gradient(90deg, #1d4ed8, #38bdf8);
-}
-
-.status-fill.processing {
-  background: linear-gradient(90deg, #6d28d9, #a855f7);
-}
-
-.management-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.management-list {
+.shipment-list {
   margin: 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
-.management-item {
+.shipment-list-item {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
   padding: 12px 14px;
-  border-radius: 16px;
+  border-radius: 10px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
 }
 
-.management-item strong {
+.shipment-list-item-info {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.shipment-list-item-info strong {
+  font-size: 0.94rem;
+}
+
+.shipment-list-item-info span {
+  color: #64748b;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+
+.shipment-list-item-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.shipment-status-update {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.86rem;
+}
+
+.shipment-status-update:focus {
+  outline: none;
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+}
+
+.shipment-empty-state {
+  padding: 20px 14px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+}
+
+.shipment-empty-state strong {
   display: block;
   margin-bottom: 4px;
+  font-size: 0.95rem;
 }
 
-.management-item span {
+.shipment-empty-state span {
   color: #64748b;
-  font-size: 0.92rem;
+  font-size: 0.86rem;
 }
 
-@media (max-width: 960px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .dashboard-columns,
-  .management-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-hero {
-    flex-direction: column;
-    align-items: start;
-  }
+.shipment-footer-note {
+  margin: 14px 0 0;
+  color: #64748b;
+  font-size: 0.85rem;
 }
+
+/* ---------- Modal ---------- */
+
+.shipment-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.shipment-modal {
+  width: min(560px, 100%);
+  max-height: min(90vh, 860px);
+  overflow: auto;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.28);
+}
+
+/* ---------- Responsive ---------- */
 
 @media (max-width: 640px) {
-  .dashboard-page {
-    padding: 16px;
-  }
-
-  .dashboard-hero {
-    padding: 18px;
-    border-radius: 20px;
-  }
-
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .dashboard-grid .ui-card-metric {
+  .shipment-page {
     padding: 14px;
+  }
+
+  .shipment-hero {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .shipment-list-item-actions {
+    width: 100%;
+  }
+
+  .shipment-list-item-actions > * {
+    flex: 1 1 auto;
+  }
+
+  .shipment-modal-backdrop {
+    padding: 12px;
+  }
+
+  .shipment-modal {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .shipment-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .shipment-form-buttons {
+    justify-content: stretch;
+  }
+
+  .shipment-form-buttons > * {
+    flex: 1 1 auto;
   }
 }

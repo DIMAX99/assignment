@@ -1,6 +1,5 @@
 import { Outlet } from "react-router-dom";
 import Sidebar, { type SidebarItem } from "../components/sidebar/Sidebar"
-import "../components/sidebar/Sidebar.css";
 
 const sidebarItems: SidebarItem[] = [
   { label: "Customer Dashboard", to: "/customer" },

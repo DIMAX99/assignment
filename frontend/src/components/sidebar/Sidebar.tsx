@@ -13,21 +13,36 @@ type SidebarProps = {
   items: SidebarItem[];
 };
 
+const DESKTOP_BREAKPOINT = "(min-width: 901px)";
+
 export default function Sidebar({ brand = "Assignment Portal", items }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(DESKTOP_BREAKPOINT).matches
+  );
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(max-width: 760px)");
+    const mediaQuery = window.matchMedia(DESKTOP_BREAKPOINT);
 
-    const updateCollapsed = (event: MediaQueryListEvent | MediaQueryList) => {
-      setCollapsed(event.matches);
+    const updateIsDesktop = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsDesktop(event.matches);
+
+      // Collapsing to an icon rail only makes sense on the desktop layout.
+      // If the viewport drops below the desktop breakpoint, always fall
+      // back to the fully expanded (labelled) state so mobile users never
+      // get stuck with a nav that rendered as bare initials or hidden.
+      if (!event.matches) {
+        setCollapsed(false);
+      }
     };
 
-    updateCollapsed(mediaQuery);
-    mediaQuery.addEventListener("change", updateCollapsed);
+    updateIsDesktop(mediaQuery);
+    mediaQuery.addEventListener("change", updateIsDesktop);
 
-    return () => mediaQuery.removeEventListener("change", updateCollapsed);
+    return () => mediaQuery.removeEventListener("change", updateIsDesktop);
   }, []);
+
+  const isRail = isDesktop && collapsed;
 
   const brandShortName = brand
     .split(" ")
@@ -38,10 +53,10 @@ export default function Sidebar({ brand = "Assignment Portal", items }: SidebarP
     .toUpperCase();
 
   return (
-    <aside className={`sidebar${collapsed ? " sidebar--collapsed" : " sidebar--expanded"}`}>
+    <aside className={`sidebar${isRail ? " sidebar--collapsed" : ""}`}>
       <div className="sidebar-header">
         <div className="sidebar-brand" title={brand}>
-          {collapsed ? brandShortName : brand}
+          {isRail ? brandShortName : brand}
         </div>
 
         <button
@@ -62,10 +77,10 @@ export default function Sidebar({ brand = "Assignment Portal", items }: SidebarP
             to={item.to}
             end={item.end}
             className={({ isActive }) => `sidebar-link${isActive ? " active" : ""}`}
-            title={collapsed ? item.label : undefined}
+            title={isRail ? item.label : undefined}
           >
             <span className="sidebar-link-label">
-              {collapsed ? item.label.split(" ").map((part) => part[0]).join("") : item.label}
+              {isRail ? item.label.split(" ").map((part) => part[0]).join("") : item.label}
             </span>
           </NavLink>
         ))}

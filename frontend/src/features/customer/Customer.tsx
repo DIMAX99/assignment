@@ -182,47 +182,48 @@ function CustomerDashboard() {
 	}
 
 	return (
-		<main className="dashboard-page">
-			<section className="dashboard-shell">
-				<header className="dashboard-hero">
-					<div className="dashboard-title-block">
-						<h2 className="dashboard-title">Customer Dashboard</h2>
+		<main className="customer-page">
+			<section className="customer-shell">
+				<header className="customer-hero">
+					<div className="customer-hero-text">
+						<h1 className="customer-title">Customer Dashboard</h1>
+						<p className="customer-subtitle">Track totals and manage every customer record in one place.</p>
 					</div>
 
-					<div className="dashboard-badge">
+					<div className="customer-badge">
 						{loading ? 'Syncing data…' : `${filteredCustomers.length} customers shown`}
 					</div>
 				</header>
 
 				{error ? (
-					<Card role="alert" style={{ borderColor: '#fecaca', color: '#b91c1c' }}>
+					<Card role="alert" className="customer-error">
 						{error}
 					</Card>
 				) : null}
 
-				<section className="dashboard-grid" aria-label="Customer metrics">
+				<section className="customer-metrics" aria-label="Customer metrics">
 					<Card variant="metric">
-						<p className="metric-label">Total Customers</p>
-						<p className="metric-value">{customers.length}</p>
+						<p className="customer-metric-label">Total Customers</p>
+						<p className="customer-metric-value">{customers.length}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Active Customers</p>
-						<p className="metric-value">{activeCount}</p>
+						<p className="customer-metric-label">Active Customers</p>
+						<p className="customer-metric-value">{activeCount}</p>
 					</Card>
 
 					<Card variant="metric">
-						<p className="metric-label">Inactive Customers</p>
-						<p className="metric-value">{inactiveCount}</p>
+						<p className="customer-metric-label">Inactive Customers</p>
+						<p className="customer-metric-value">{inactiveCount}</p>
 					</Card>
 				</section>
 
-				<section className="management-grid" aria-label="Customer management">
+				<section aria-label="Customer management">
 					<Card>
-						<div className="panel-header">
+						<div className="customer-panel-header">
 							<div>
-								<h2 className="panel-title">Customer List</h2>
-								<p className="panel-description">Search, filter, edit, and remove customers from the list.</p>
+								<h2 className="customer-panel-title">Customer List</h2>
+								<p className="customer-panel-description">Search, filter, edit, and remove customers from the list.</p>
 							</div>
 
 							<Button type="button" variant="pill" onClick={openCreateModal}>
@@ -230,9 +231,9 @@ function CustomerDashboard() {
 							</Button>
 						</div>
 
-						<div style={{ display: 'grid', gap: '14px', marginBottom: '18px' }}>
+						<div className="customer-toolbar">
 							<input
-								className="field-input"
+								className="customer-search-input"
 								type="search"
 								value={searchTerm}
 								onChange={(event) => setSearchTerm(event.target.value)}
@@ -240,7 +241,7 @@ function CustomerDashboard() {
 							/>
 
 							<select
-								className="field-input"
+								className="customer-status-select"
 								value={statusFilter}
 								onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
 							>
@@ -254,19 +255,17 @@ function CustomerDashboard() {
 						</div>
 
 						{loading ? (
-							<div className="management-item">Loading customers…</div>
+							<div className="customer-empty-state">Loading customers…</div>
 						) : filteredCustomers.length === 0 ? (
-							<div className="management-item">
-								<div>
-									<strong>No customers found</strong>
-									<span>Add a new customer or adjust the filters.</span>
-								</div>
+							<div className="customer-empty-state">
+								<strong>No customers found</strong>
+								<span>Add a new customer or adjust the filters.</span>
 							</div>
 						) : (
-							<ul className="management-list">
+							<ul className="customer-list">
 								{filteredCustomers.map((customer) => (
-									<li className="management-item" key={customer.id}>
-										<div style={{ minWidth: 0 }}>
+									<li className="customer-list-item" key={customer.id}>
+										<div className="customer-list-item-info">
 											<strong>{customer.name}</strong>
 											<span>
 												{customer.email}
@@ -275,7 +274,7 @@ function CustomerDashboard() {
 											<span>Status: {customer.status}</span>
 										</div>
 
-										<div style={{ display: 'flex', gap: '10px', flexShrink: 0 }}>
+										<div className="customer-list-item-actions">
 											<Button type="button" variant="pill" onClick={() => startEdit(customer)}>
 												Edit
 											</Button>
@@ -288,7 +287,7 @@ function CustomerDashboard() {
 							</ul>
 						)}
 
-						<p className="panel-description" style={{ marginTop: '16px' }}>
+						<p className="customer-footer-note">
 							Customer count: {customers.length} · Companies: {companyCount}
 						</p>
 					</Card>
@@ -303,12 +302,12 @@ function CustomerDashboard() {
 							aria-labelledby="customer-modal-title"
 							onClick={(event) => event.stopPropagation()}
 						>
-							<div className="panel-header">
+							<div className="customer-panel-header">
 								<div>
-									<h2 className="panel-title" id="customer-modal-title">
+									<h2 className="customer-panel-title" id="customer-modal-title">
 										{editingId === null ? 'Create Customer' : `Edit Customer #${editingId}`}
 									</h2>
-									<p className="panel-description">
+									<p className="customer-panel-description">
 										{editingId === null
 											? 'Fill in the fields and create a new customer record.'
 											: 'Update the customer details and save the changes.'}
@@ -323,9 +322,9 @@ function CustomerDashboard() {
 							<form className="customer-form" onSubmit={handleSubmit}>
 								<div className="customer-form-fields">
 									<label className="customer-field">
-										<span className="field-label">Name</span>
+										<span className="customer-field-label">Name</span>
 										<input
-											className="field-input"
+											className="customer-field-input"
 											type="text"
 											value={form.name}
 											onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
@@ -335,9 +334,9 @@ function CustomerDashboard() {
 									</label>
 
 									<label className="customer-field">
-										<span className="field-label">Email</span>
+										<span className="customer-field-label">Email</span>
 										<input
-											className="field-input"
+											className="customer-field-input"
 											type="email"
 											value={form.email}
 											onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))}
@@ -347,9 +346,9 @@ function CustomerDashboard() {
 									</label>
 
 									<label className="customer-field">
-										<span className="field-label">Company</span>
+										<span className="customer-field-label">Company</span>
 										<input
-											className="field-input"
+											className="customer-field-input"
 											type="text"
 											value={form.company}
 											onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))}
