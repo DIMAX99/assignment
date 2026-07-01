@@ -67,7 +67,7 @@
 }
 
 .metric-label {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   color: #64748b;
   font-size: 0.84rem;
   font-weight: 700;
@@ -75,16 +75,9 @@
 
 .metric-value {
   margin: 0;
-  font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 800;
   line-height: 1;
-}
-
-.metric-note {
-  margin: 12px 0 0;
-  color: #475569;
-  line-height: 1.5;
-  font-size: 0.92rem;
 }
 
 .dashboard-columns {
@@ -162,7 +155,7 @@
 
 .management-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
 }
 
@@ -255,11 +248,14 @@
 
 .dashboard-page :global(.ui-card-panel),
 .dashboard-page :global(.ui-card-metric) {
-  padding: 18px;
+  padding: 16px;
 }
 
 @media (max-width: 960px) {
-  .dashboard-grid,
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .dashboard-columns,
   .management-grid {
     grid-template-columns: 1fr;
@@ -285,6 +281,10 @@
   .dashboard-columns,
   .management-grid {
     gap: 12px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
 
   .customer-modal-backdrop {

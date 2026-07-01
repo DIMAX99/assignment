@@ -204,19 +204,16 @@ function CustomerDashboard() {
 					<Card variant="metric">
 						<p className="metric-label">Total Customers</p>
 						<p className="metric-value">{customers.length}</p>
-						<p className="metric-note">All active customer records currently returned by the API.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Active Customers</p>
 						<p className="metric-value">{activeCount}</p>
-						<p className="metric-note">Customers marked as ACTIVE and available for operations.</p>
 					</Card>
 
 					<Card variant="metric">
 						<p className="metric-label">Inactive Customers</p>
 						<p className="metric-value">{inactiveCount}</p>
-						<p className="metric-note">Customers retained in the list but marked as INACTIVE.</p>
 					</Card>
 				</section>
 
@@ -224,22 +221,13 @@ function CustomerDashboard() {
 					<Card>
 						<div className="panel-header">
 							<div>
-								<h2 className="panel-title">Create Customer</h2>
-								<p className="panel-description">Open the popup to add a new customer record.</p>
+								<h2 className="panel-title">Customer List</h2>
+								<p className="panel-description">Search, filter, edit, and remove customers from the list.</p>
 							</div>
 
 							<Button type="button" variant="pill" onClick={openCreateModal}>
 								Create Customer
 							</Button>
-						</div>
-					</Card>
-
-					<Card>
-						<div className="panel-header">
-							<div>
-								<h2 className="panel-title">Customer List</h2>
-								<p className="panel-description">Search, filter, edit, and remove customers from the list.</p>
-							</div>
 						</div>
 
 						<div style={{ display: 'grid', gap: '14px', marginBottom: '18px' }}>
